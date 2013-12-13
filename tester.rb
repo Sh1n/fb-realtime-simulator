@@ -1,4 +1,4 @@
-require './FacebookSimulator.rb'
+require_relative 'facebook_simulator.rb'
 
 # =================================================================
 # userId represents the User whose subscription entry is arriving 
@@ -35,6 +35,6 @@ puts "    Facebook Simulator"
 puts "==========================="
 sim = FacebookSimulator.new
 sim.debug = true
-sim.verifyToken = VERIFY_TOKEN
-sim.callbackUrl = CALLBACK_URL
-sim.simulateRealtimeUpdate(payload)
+sim.verify_token = VERIFY_TOKEN
+sim.callback_url = CALLBACK_URL
+sim.simulate_realtime_update(payload)

@@ -1,9 +1,10 @@
 require 'securerandom'
 require 'restclient'
+require 'json'
 
 class FacebookSimulator
 	
-	attr_accessor :verify_token, :callback_url, :app_secret, :app_id, :app_secret, :debug  
+	attr_accessor :verify_token, :callback_url, :app_secret, :app_id, :debug  
 	attr_reader :challenge
 
 	def simulate_realtime_update(payload)
@@ -25,18 +26,18 @@ class FacebookSimulator
 			response = RestClient.get @callback_url, hub
 			if response.code == 200 and response == @challenge
 				if @debug
-					puts "Verification response: [" + response.code + "] " + response
+					puts "Verification response: [" + response.code.to_s + "] " + response
 					puts "Sending Stream: " + payload.to_s
 				end
 				# Streaming
-				response = RestClient.put @callback_url,  payload.to_json, :content_type => :json
+				response = RestClient.post @callback_url,  payload.to_json, :content_type => :json
 				if @debug
-					puts "Received: [code." + response.code + "] " + response
+					puts "Received: [code." + response.code.to_s + "] " + response
 				end
 				return true
 			else
 				if @debug
-					puts "Received: [code." + response.code + "] " + response
+					puts "Received: [code." + response.code.to_s + "] " + response
 				end
 				return false
 			end
