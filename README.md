@@ -1,7 +1,7 @@
 fb-realtime-simulator
 =====================
 
-Simulator for messages coming from Facebook Realtime Updates
+Simulator of messages coming from Facebook Realtime Updates
 
 Usage
 =====
