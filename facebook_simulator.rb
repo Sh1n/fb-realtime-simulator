@@ -3,14 +3,14 @@ require 'restclient'
 
 class FacebookSimulator
 	
-	attr_accessor :verifyToken, :callbackUrl, :appSecret, :appId, :appSecret, :debug  
+	attr_accessor :verify_token, :callback_url, :app_secret, :app_id, :app_secret, :debug  
 	attr_reader :challenge
 
-	def simulateRealtimeUpdate(payload)
+	def simulate_realtime_update(payload)
 		@challenge = SecureRandom.hex()
 		hub = {
 			:params => {
-				"hub.verify_token" => @verifyToken,
+				"hub.verify_token" => @verify_token,
 				"hub.mode" => "subscribe",
 				"hub.challenge" => @challenge
 			}
@@ -20,16 +20,16 @@ class FacebookSimulator
 		end
 		begin
 			if @debug
-				puts "Sending Verification to: " + @callbackUrl.to_s
+				puts "Sending Verification to: " + @callback_url.to_s
 			end
-			response = RestClient.get @callbackUrl, hub
+			response = RestClient.get @callback_url, hub
 			if response.code == 200 and response == @challenge
 				if @debug
 					puts "Verification response: [" + response.code + "] " + response
 					puts "Sending Stream: " + payload.to_s
 				end
 				# Streaming
-				response = RestClient.put @callbackUrl,  payload.to_json, :content_type => :json
+				response = RestClient.put @callback_url,  payload.to_json, :content_type => :json
 				if @debug
 					puts "Received: [code." + response.code + "] " + response
 				end
